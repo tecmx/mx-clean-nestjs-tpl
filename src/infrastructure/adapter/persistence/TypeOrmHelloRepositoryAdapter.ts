@@ -1,3 +1,3 @@
-export TypeOrmHelloRepositoryAdapter implements HelloRepositoryPort {
-    get(id: number): any
+export class TypeOrmHelloRepositoryAdapter implements HelloRepositoryPort {
+  get(id: number): any;
 }

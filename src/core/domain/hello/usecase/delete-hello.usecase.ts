@@ -1,3 +1,3 @@
 export interface DeleteHelloUsecase {
-    void execute(): void;
+  execute(id: number): void;
 }

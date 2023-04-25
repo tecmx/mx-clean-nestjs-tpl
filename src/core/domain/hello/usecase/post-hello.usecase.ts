@@ -1,3 +1,3 @@
 export interface PostHelloUsecase {
-    void execute(): void;
+  execute(): void;
 }
