@@ -1,9 +1,17 @@
 export class Hello {
-  private intAttr: number;
-  private stringAttr: string;
+  private _intAttr: number;
+  private _stringAttr: string;
 
   constructor(intAttr: number, stringAttr: string) {
-    this.intAttr = intAttr;
-    this.stringAttr = stringAttr;
+    this._intAttr = intAttr;
+    this._stringAttr = stringAttr;
+  }
+
+  get intAttr() {
+    return this._intAttr;
+  }
+
+  get stringAttr() {
+    return this._stringAttr;
   }
 }

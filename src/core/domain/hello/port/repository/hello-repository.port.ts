@@ -1,4 +1,4 @@
-import { Hello } from '../../entity/hello';
+import { Hello } from "../../entity/hello";
 
 export interface HelloRepositoryPort {
   getAllHello(): Hello[];
