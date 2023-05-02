@@ -1,21 +1,27 @@
 import { Hello } from "src/core/domain/hello/entity/hello";
 import { HelloRepositoryPort } from "src/core/domain/hello/port/repository/hello-repository.port";
+import { EntityRepository, InsertResult } from "typeorm";
+import { BaseRepository } from "typeorm-transactional-cls-hooked";
 import { TypeOrmHello } from "./TypeOrmHello";
 import { TypeOrmHelloMapper } from "./TypeOrmHelloMapper";
 
-export class TypeOrmHelloRepositoryAdapter implements HelloRepositoryPort {
+@EntityRepository(TypeOrmHello)
+export class TypeOrmHelloRepositoryAdapter
+  extends BaseRepository<TypeOrmHello>
+  implements HelloRepositoryPort
+{
   private readonly helloAlias: string = "hello";
 
-  getHello(id: number): Hello {
+  public async getHello(id: number): Promise<Hello> {
     throw new Error("Method not implemented.");
   }
-  getAllHello(): Hello[] {
+  public async getAllHello(): Promise<Hello[]> {
     throw new Error("Method not implemented.");
   }
-  putHello(payload: Hello): Hello {
+  public async putHello(payload: Hello): Promise<Hello> {
     throw new Error("Method not implemented.");
   }
-  postHello(hello: Hello): Hello {
+  public async postHello(hello: Hello): Promise<Hello> {
     const ormHello: TypeOrmHello = TypeOrmHelloMapper.toOrmEntity(hello);
 
     const insertResult: InsertResult = await this.createQueryBuilder(
@@ -30,7 +36,7 @@ export class TypeOrmHelloRepositoryAdapter implements HelloRepositoryPort {
       id: insertResult.identifiers[0].id,
     };
   }
-  deleteHello(id: number): void {
+  public async deleteHello(id: number): Promise<void> {
     throw new Error("Method not implemented.");
   }
 }

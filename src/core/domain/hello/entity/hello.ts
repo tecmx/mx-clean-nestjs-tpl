@@ -1,8 +1,27 @@
-export class Hello {
+import { IsDate, IsOptional, IsString } from 'class-validator';
+import { Entity } from "../../../common/entity/Entity";
+import { RemovableEntity } from "../../../common/entity/RemovableEntity";
+
+export class Hello extends Entity<string> implements RemovableEntity
+  @IsString()
   private _intAttr: number;
+
+  @IsString()
   private _stringAttr: string;
 
+  @IsDate()
+  private readonly createdAt: Date;
+  
+  @IsOptional()
+  @IsDate()
+  private editedAt: Nullable<Date>;
+  
+  @IsOptional()
+  @IsDate()
+  private removedAt: Nullable<Date>;
+
   constructor(intAttr: number, stringAttr: string) {
+    super();
     this._intAttr = intAttr;
     this._stringAttr = stringAttr;
   }

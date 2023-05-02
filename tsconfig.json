@@ -19,6 +19,6 @@
     "noFallthroughCasesInSwitch": false,
     "alwaysStrict": true,
     "moduleResolution": "node",
-    "checkjs": true
+    "checkJs": true
   }
 }
