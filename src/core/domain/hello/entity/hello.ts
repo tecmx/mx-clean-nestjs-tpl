@@ -1,15 +1,9 @@
-import { IsDate, IsOptional, IsString } from "class-validator";
+import { IsDate, IsOptional } from "class-validator";
 import { Entity } from "../../../common/entity/Entity";
 import { RemovableEntity } from "../../../common/entity/RemovableEntity";
 import { Nullable } from "../../../common/type/CommonType";
 
 export class Hello extends Entity<string> implements RemovableEntity {
-  @IsString()
-  private _intAttr: number;
-
-  @IsString()
-  private _stringAttr: string;
-
   @IsDate()
   private readonly createdAt: Date;
 
@@ -21,18 +15,14 @@ export class Hello extends Entity<string> implements RemovableEntity {
   @IsDate()
   private removedAt: Nullable<Date>;
 
-  constructor(intAttr: number, stringAttr: string) {
+  constructor(payload: CreateHelloEntityPayload) {
     super();
-    this._intAttr = intAttr;
-    this._stringAttr = stringAttr;
-  }
-
-  get intAttr() {
-    return this._intAttr;
-  }
-
-  get stringAttr() {
-    return this._stringAttr;
+  
+    this.id          = payload.id || v4();
+    this.createdAt   = payload.createdAt || new Date();
+    this.editedAt    = payload.editedAt || null;
+    this.publishedAt = payload.publishedAt || null;
+    this.removedAt   = payload.removedAt || null;
   }
 
   remove(): Promise<void> {
