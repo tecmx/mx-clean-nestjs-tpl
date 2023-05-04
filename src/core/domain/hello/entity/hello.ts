@@ -17,12 +17,12 @@ export class Hello extends Entity<string> implements RemovableEntity {
 
   constructor(payload: CreateHelloEntityPayload) {
     super();
-  
-    this.id          = payload.id || v4();
-    this.createdAt   = payload.createdAt || new Date();
-    this.editedAt    = payload.editedAt || null;
+
+    this.id = payload.id || v4();
+    this.createdAt = payload.createdAt || new Date();
+    this.editedAt = payload.editedAt || null;
     this.publishedAt = payload.publishedAt || null;
-    this.removedAt   = payload.removedAt || null;
+    this.removedAt = payload.removedAt || null;
   }
 
   remove(): Promise<void> {
