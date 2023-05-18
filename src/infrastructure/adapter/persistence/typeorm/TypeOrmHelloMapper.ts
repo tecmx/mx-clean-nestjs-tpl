@@ -6,11 +6,9 @@ export class TypeOrmHelloMapper {
     const ormHello: TypeOrmHello = new TypeOrmHello();
 
     ormHello.id = domain.getId();
-    ormHello.title = domain.getTitle();
 
     ormHello.createdAt = domain.getCreatedAt();
     ormHello.editedAt = domain.getEditedAt() as Date;
-    ormHello.publishedAt = domain.getPublishedAt() as Date;
     ormHello.removedAt = domain.getRemovedAt() as Date;
 
     return ormHello;
@@ -18,11 +16,9 @@ export class TypeOrmHelloMapper {
 
   public static toDomainEntity(ormHello: TypeOrmHello): Hello {
     const domain: Hello = new Hello({
-      title: ormHello.title,
       id: ormHello.id,
       createdAt: ormHello.createdAt,
       editedAt: ormHello.editedAt,
-      publishedAt: ormHello.publishedAt,
       removedAt: ormHello.removedAt,
     });
 

@@ -1,7 +1,9 @@
 import { Hello } from "src/core/domain/hello/entity/hello";
-import { HelloRepositoryPort } from "src/core/domain/hello/port/repository/hello-repository.port";
-import { EntityRepository, InsertResult } from "typeorm";
+import { HelloRepositoryPort } from "src/core/domain/hello/port/repository/HelloRepositoryPort";
+import { EntityRepository, InsertResult, SelectQueryBuilder } from "typeorm";
 import { BaseRepository } from "typeorm-transactional-cls-hooked";
+import { RepositoryFindOptions } from "../../../../core/common/persistence/RepositoryOptions";
+import { Optional } from "../../../../core/common/type/CommonType";
 import { TypeOrmHello } from "./TypeOrmHello";
 import { TypeOrmHelloMapper } from "./TypeOrmHelloMapper";
 
@@ -10,18 +12,46 @@ export class TypeOrmHelloRepositoryAdapter
   extends BaseRepository<TypeOrmHello>
   implements HelloRepositoryPort
 {
+  updateHellos(values: { helloId?: string; }, by: { helloId?: string; }): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
   private readonly helloAlias: string = "hello";
+  private readonly excludeRemovedHelloClause: string = `"${this.helloAlias}"."removedAt" IS NULL`;
 
-  public async getHello(id: number): Promise<Hello> {
+  public async findHello(
+    by: {
+      id?: string;
+    },
+    options: RepositoryFindOptions = {},
+  ): Promise<Hello> {
+    let domainEntity: Optional<Hello>;
+
+    const query: SelectQueryBuilder<TypeOrmHello> =
+      this.buildHelloQueryBuilder();
+
+    this.extendQueryWithByProperties(by, query);
+
+    if (!options.includeRemoved) {
+      query.andWhere(this.excludeRemovedHelloClause);
+    }
+
+    const ormEntity: Optional<TypeOrmHello> = await query.getOne();
+
+    if (ormEntity) {
+      domainEntity = TypeOrmHelloMapper.toDomainEntity(ormEntity);
+    }
+
+    return domainEntity;
+  }
+
+  public async findHellos(): Promise<Hello[]> {
     throw new Error("Method not implemented.");
   }
-  public async getAllHello(): Promise<Hello[]> {
+  public async updateHello(payload: Hello): Promise<Hello> {
     throw new Error("Method not implemented.");
   }
-  public async putHello(payload: Hello): Promise<Hello> {
-    throw new Error("Method not implemented.");
-  }
-  public async postHello(hello: Hello): Promise<Hello> {
+
+  public async addHello(hello: Hello): Promise<{ id: string }> {
     const ormHello: TypeOrmHello = TypeOrmHelloMapper.toOrmEntity(hello);
 
     const insertResult: InsertResult = await this.createQueryBuilder(
@@ -36,7 +66,23 @@ export class TypeOrmHelloRepositoryAdapter
       id: insertResult.identifiers[0].id,
     };
   }
-  public async deleteHello(id: number): Promise<void> {
-    throw new Error("Method not implemented.");
+  public async removeHello(hello: Hello): Promise<void> {
+    await hello.remove();
+    const ormHello: TypeOrmHello = TypeOrmHelloMapper.toOrmEntity(hello);
+    await this.delete(ormHello);
+  }
+
+  private buildHelloQueryBuilder(): SelectQueryBuilder<TypeOrmHello> {
+    return this.createQueryBuilder(this.helloAlias).select();
+  }
+  
+
+  private extendQueryWithByProperties(
+    by: { id?: string },
+    query: SelectQueryBuilder<TypeOrmHello>,
+  ): void {
+    if (by.id) {
+      query.andWhere(`"${this.helloAlias}"."id" = :id`, { id: by.id });
+    }
   }
 }

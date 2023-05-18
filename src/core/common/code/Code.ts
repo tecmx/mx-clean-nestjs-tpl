@@ -4,8 +4,6 @@ export type CodeDescription = {
 };
 
 export class Code {
-  // Common
-
   public static SUCCESS: CodeDescription = {
     code: 200,
     message: "Success.",

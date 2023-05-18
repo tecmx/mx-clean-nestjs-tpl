@@ -4,7 +4,7 @@ import { Optional } from "../type/CommonType";
 import {
   ClassValidationDetails,
   ClassValidator
-} from "../util/ClassValidador/ClassValidator";
+} from "../util/class-validator/ClassValidator";
 
 export class Entity<TIdentifier extends string | number> {
   protected id: Optional<TIdentifier>;
