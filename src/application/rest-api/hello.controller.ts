@@ -1,7 +1,7 @@
 import { Controller, Get, Inject, Query } from "@nestjs/common";
-import { HelloUsecaseDto } from "src/core/domain/hello/usecase/dto/helle-usecase.dto";
-import { GetHelloUsecase } from "src/core/domain/hello/usecase/GetHelloUsecase";
 import { HelloRepositoryPortDI } from "../di/hello.token";
+import { GetHelloUsecase } from "src/core/domain/hello/usecase/GetHelloUsecase";
+import { HelloUsecaseDto } from "src/core/domain/hello/usecase/dto/HelloUsecaseDto";
 @Controller()
 export class HelloController {
   constructor(
@@ -12,5 +12,6 @@ export class HelloController {
   @Get()
   getHello(@Query("id") id: number): HelloUsecaseDto {
     //return this.getHelloUsecase.execute(id);
+    throw new Error("Method not implemented.");
   }
 }

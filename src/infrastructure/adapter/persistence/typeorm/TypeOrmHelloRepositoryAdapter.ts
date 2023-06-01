@@ -54,26 +54,29 @@ export class TypeOrmHelloRepositoryAdapter
   public async addHello(hello: Hello): Promise<{ id: string }> {
     const ormHello: TypeOrmHello = TypeOrmHelloMapper.toOrmEntity(hello);
 
-    const insertResult: InsertResult = await this.createQueryBuilder(
+    /*const insertResult: InsertResult = await this.createQueryBuilder(
       this.helloAlias,
     )
       .insert()
       .into(TypeOrmHello)
       .values([ormHello])
       .execute();
-
+*/
     return {
-      id: insertResult.identifiers[0].id,
+      id: "",
     };
   }
+
   public async removeHello(hello: Hello): Promise<void> {
     await hello.remove();
     const ormHello: TypeOrmHello = TypeOrmHelloMapper.toOrmEntity(hello);
     await this.delete(ormHello);
   }
 
+
   private buildHelloQueryBuilder(): SelectQueryBuilder<TypeOrmHello> {
-    return this.createQueryBuilder(this.helloAlias).select();
+    throw new Error("Method not implemented.");
+//    return this.createQueryBuilder(this.helloAlias).select();
   }
   
 

@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
-import { GetHelloService } from "src/core/service/get-hello.service";
-import { TypeOrmHelloRepositoryAdapter } from "src/infrastructure/adapter/persistence/TypeOrmHelloRepositoryAdapter";
 import { HelloController } from "../rest-api/hello.controller";
 import { GetHelloUsecaseDI, HelloRepositoryPortDI } from "./hello.token";
+import { GetHelloService } from "src/core/service/GetHelloService";
+import { TypeOrmHelloRepositoryAdapter } from "src/infrastructure/adapter/persistence/typeorm/TypeOrmHelloRepositoryAdapter";
 
 const repositoryProviders = [
   {
