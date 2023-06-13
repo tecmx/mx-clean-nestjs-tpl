@@ -1,6 +1,6 @@
 import { Hello } from "src/core/domain/hello/entity/hello";
 import { HelloRepositoryPort } from "src/core/domain/hello/port/repository/HelloRepositoryPort";
-import { EntityRepository, InsertResult, SelectQueryBuilder } from "typeorm";
+import { EntityRepository, SelectQueryBuilder } from "typeorm";
 import { BaseRepository } from "typeorm-transactional-cls-hooked";
 import { RepositoryFindOptions } from "../../../../core/common/persistence/RepositoryOptions";
 import { Optional } from "../../../../core/common/type/CommonType";
@@ -12,9 +12,6 @@ export class TypeOrmHelloRepositoryAdapter
   extends BaseRepository<TypeOrmHello>
   implements HelloRepositoryPort
 {
-  updateHellos(values: { helloId?: string; }, by: { helloId?: string; }): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
   private readonly helloAlias: string = "hello";
   private readonly excludeRemovedHelloClause: string = `"${this.helloAlias}"."removedAt" IS NULL`;
 
@@ -42,6 +39,13 @@ export class TypeOrmHelloRepositoryAdapter
     }
 
     return domainEntity;
+  }
+
+  updateHellos(
+    values: { helloId?: string },
+    by: { helloId?: string },
+  ): Promise<void> {
+    throw new Error("Method not implemented.");
   }
 
   public async findHellos(): Promise<Hello[]> {
@@ -73,12 +77,10 @@ export class TypeOrmHelloRepositoryAdapter
     await this.delete(ormHello);
   }
 
-
   private buildHelloQueryBuilder(): SelectQueryBuilder<TypeOrmHello> {
     throw new Error("Method not implemented.");
-//    return this.createQueryBuilder(this.helloAlias).select();
+    //    return this.createQueryBuilder(this.helloAlias).select();
   }
-  
 
   private extendQueryWithByProperties(
     by: { id?: string },

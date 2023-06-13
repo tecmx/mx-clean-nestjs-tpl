@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { HelloRepositoryPortDI } from "src/application/di/hello.token";
+import { HelloDITokens } from "src/application/di/hello.token";
 import { Code } from "../common/code/Code";
 import { Exception } from "../common/exception/Exception";
 import { CoreAssert } from "../common/util/assert/CoreAssert";
@@ -12,7 +12,7 @@ import { GetHelloUsecase } from "../domain/hello/usecase/GetHelloUsecase";
 @Injectable()
 export class GetHelloService implements GetHelloUsecase {
   constructor(
-    @Inject(HelloRepositoryPortDI)
+    @Inject(HelloDITokens.HelloRepositoryPort)
     private readonly repository: HelloRepositoryPort,
   ) {}
 

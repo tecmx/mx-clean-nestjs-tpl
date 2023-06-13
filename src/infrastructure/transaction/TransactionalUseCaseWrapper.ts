@@ -1,7 +1,7 @@
 import {
   runOnTransactionCommit,
   runOnTransactionRollback,
-  Transactional
+  Transactional,
 } from "typeorm-transactional-cls-hooked";
 import { TransactionalUseCase } from "../../core/common/usecase/TransactionalUseCase";
 import { UseCase } from "../../core/common/usecase/UseCase";

@@ -1,27 +1,30 @@
-import { Module } from "@nestjs/common";
-import { HelloController } from "../rest-api/hello.controller";
-import { GetHelloUsecaseDI, HelloRepositoryPortDI } from "./hello.token";
+import { Module, Provider } from "@nestjs/common";
 import { GetHelloService } from "src/core/service/GetHelloService";
 import { TypeOrmHelloRepositoryAdapter } from "src/infrastructure/adapter/persistence/typeorm/TypeOrmHelloRepositoryAdapter";
+import { Connection } from "typeorm";
+import { HelloController } from "../rest-api/hello.controller";
+import { HelloDITokens } from "./hello.token";
 
-const repositoryProviders = [
+const persistenceProviders: Provider[] = [
   {
-    provide: HelloRepositoryPortDI,
-    useClass: TypeOrmHelloRepositoryAdapter,
+    provide: HelloDITokens.HelloRepositoryPort,
+    useFactory: (connection) =>
+      connection.getCustomRepository(TypeOrmHelloRepositoryAdapter),
+    inject: [Connection],
   },
 ];
 
 const useCaseProviders = [
   {
-    provide: GetHelloUsecaseDI,
+    provide: HelloDITokens.GetHelloUsecaseDI,
     useFactory: (repository) => new GetHelloService(repository),
-    inject: [HelloRepositoryPortDI],
+    inject: [HelloDITokens.HelloRepositoryPort],
   },
 ];
 
 @Module({
   imports: [],
   controllers: [HelloController],
-  providers: [...repositoryProviders, ...useCaseProviders],
+  providers: [...persistenceProviders, ...useCaseProviders],
 })
 export class HelloModule {}
