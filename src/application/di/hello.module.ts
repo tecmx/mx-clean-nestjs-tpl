@@ -23,7 +23,7 @@ const useCaseProviders = [
 ];
 
 @Module({
-  imports: [],
+  imports: [Connection],
   controllers: [HelloController],
   providers: [...persistenceProviders, ...useCaseProviders],
 })

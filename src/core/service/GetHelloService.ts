@@ -6,8 +6,8 @@ import { CoreAssert } from "../common/util/assert/CoreAssert";
 import { Hello } from "../domain/hello/entity/hello";
 import { HelloRepositoryPort } from "../domain/hello/port/repository/HelloRepositoryPort";
 import { GetHelloPort } from "../domain/hello/port/usecase/GetHelloPort";
-import { HelloUsecaseDto } from "../domain/hello/usecase/dto/HelloUsecaseDto";
 import { GetHelloUsecase } from "../domain/hello/usecase/GetHelloUsecase";
+import { HelloUsecaseDto } from "../domain/hello/usecase/dto/HelloUsecaseDto";
 
 @Injectable()
 export class GetHelloService implements GetHelloUsecase {
